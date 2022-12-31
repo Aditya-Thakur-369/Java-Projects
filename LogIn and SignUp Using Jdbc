@@ -1,0 +1,98 @@
+import java.util.Scanner;import java.sql.Statement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.*;
+
+public class Log {
+    static String user ;
+    static String Values;
+    static int pass;
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        do{
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+        System.out.println("1. Sign Up");
+        System.out.println("2. Log In");
+        System.out.print("What's Your Choice : ");
+        int op = sc.nextInt();
+        switch(op){
+            case 1:SignUp();
+            break;
+            case 2:LogIn();
+            break;
+            default : System.out.println("Error Selection !!!");
+        }
+    }while(true);
+    }
+    static void SignUp(){
+        Scanner sc = new Scanner(System.in);
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java","root", "");
+            PreparedStatement psmt = con.prepareStatement("Insert into user values(?,?)");
+            BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+
+            System.out.print("Enter Your User Name : ");
+            user = bf.readLine();
+            System.out.print("Enter Password : ");
+            pass = Integer.parseInt(bf.readLine());
+
+            psmt.setString(1, user);
+            psmt.setInt(2, pass);
+
+            int count = psmt.executeUpdate();
+            if(count>0){
+                System.out.println("Registered Successfully");
+            }else{
+                System.out.println("Sorry Not Registered");
+            }
+        }catch(Exception e){
+            System.out.println(e);
+        }
+        System.out.print("\nDO YOU WANT TO SEARCH AGAIN [ YES ]: ");
+        String ch = sc.nextLine();
+        if(ch.equalsIgnoreCase("Yes")){
+            SignUp();
+        }
+    }
+    static void LogIn(){
+        int c = 0 ;
+        Scanner sc = new Scanner(System.in);
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java","root", "");
+            Statement smt = con.createStatement();
+            BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+            System.out.print("Enter Your User Name : ");
+            user = bf.readLine();
+            System.out.print("Enter Password : ");
+            pass = Integer.parseInt(bf.readLine());
+            ResultSet rs = smt.executeQuery("select * from user where user = '"+user+"' and pass = "+pass+"");
+            while(rs.next()){
+                c++;
+            }
+            if(c>0){
+                System.out.println("found");
+            }else{
+                System.out.println("not found");
+            }
+
+        }catch(Exception e){
+            System.out.println(e);
+        }
+        System.out.print("\nDO YOU WANT TO SEARCH AGAIN [ YES ]: ");
+        String ch = sc.nextLine();
+        if(ch.equalsIgnoreCase("Yes")){
+            LogIn();
+        }
+    }
+}
