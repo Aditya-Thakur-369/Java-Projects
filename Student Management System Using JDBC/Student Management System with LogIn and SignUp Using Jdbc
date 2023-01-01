@@ -149,8 +149,9 @@ static void main(){
             PreparedStatement psmt = con.prepareStatement("Insert into Student values(?,?,?,?,?,?,?)");
             BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 
-                System.out.print("Enter Your ID : ");
-                id = Integer.parseInt(bf.readLine());
+                // System.out.print("Enter Your ID : ");
+                // id = Integer.parseInt(bf.readLine());
+                    // id = id++;
                 System.out.print("Enter Your Name : ");
                 name = bf.readLine();
                 System.out.print("Enter Your Email : ");
@@ -217,6 +218,13 @@ static void main(){
             Delete();
         }
     }
+    static String showid = "ID";
+    static String showname = "NAME";
+    static String showemail = "EMAIL";
+    static String showfname= "FATHER's NAME";
+    static String showfnum = "FATHER's NUMBER";
+    static String shownum = "NUMBER";
+    static String showaddress = "ADDRESS";
     static void Display(){
         System.out.print("\033[H\033[2J");
         System.out.flush();
@@ -226,7 +234,7 @@ static void main(){
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java","root", "");
             Statement smt = con.createStatement();
             ResultSet rs = smt.executeQuery("select * from student");
-            System.out.println("ID      NAME        EMAIL      FATHER'S NAME        FATHER'S NUMBER      NUMBER        ADDRESS");
+            System.out.printf("%-20s     %-20s    %-20s     %-20s     %-20s     %-20s     %-20s \n\n",showid,showname,showemail,showfname,showfnum,shownum,showaddress);
             while(rs.next()){
                 id = rs.getInt(1);
                 name = rs.getString(2);
@@ -236,7 +244,7 @@ static void main(){
                 num = rs.getInt(6);
                 address = rs.getString(7);
                  
-                System.out.printf("%-10d   %-10s  %-10s  %-10s  %-10d  %-10d  %-10s\n",id,name,email,fname,fnum,num,address);
+                System.out.printf("%-20d     %-20s     %-20s     %-20s     %-20d     %-20d     %-20s\n",id,name,email,fname,fnum,num,address);
 
             }
         }catch(Exception e){
@@ -268,8 +276,8 @@ static void Update(){
                 c++;
                 if(c>0){
                     main++; 
-                    System.out.println("ID      NAME    EMAIL   FATHER'S NAME   FATHER'S    NUMBER    NUMBER    ADDRESS\n");
-                id = rs.getInt(1);
+                    System.out.printf("%-20s     %-20s    %-20s     %-20s     %-20s     %-20s     %-20s \n\n",showid,showname,showemail,showfname,showfnum,shownum,showaddress);
+                    id = rs.getInt(1);
                 name = rs.getString(2);
                 email = rs.getString(3);
                 fname = rs.getString(4);
@@ -277,7 +285,8 @@ static void Update(){
                 num = rs.getInt(6);
                 address = rs.getString(7);
                  
-                System.out.printf("%-10d   %-10s  %-10s  %-10s  %-10d  %-10d  %-10s\n\n",id,name,email,fname,fnum,num,address);
+                System.out.printf("%-20d     %-20s     %-20s     %-20s     %-20d     %-20d     %-20s\n",id,name,email,fname,fnum,num,address);
+
 
                 System.out.print("Enter New Name : ");
                 name = bf.readLine();
@@ -327,7 +336,7 @@ static void Update(){
             Statement smt = con.createStatement();
 
             id = ids;
-            System.out.println("\nID      NAME       EMAIL     FATHER'S NAME    FATHER'S NUMBER    NUMBER    ADDRESS\n");
+            System.out.printf("%-20s     %-20s    %-20s     %-20s     %-20s     %-20s     %-20s \n\n",showid,showname,showemail,showfname,showfnum,shownum,showaddress);
             ResultSet rs1 = smt.executeQuery("Select * from student where sid = " + id);
             while(rs1.next()){
                 id = rs1.getInt(1);
@@ -338,7 +347,8 @@ static void Update(){
                 num = rs1.getInt(6);
                 address = rs1.getString(7);
                  
-                System.out.printf("%-10d   %-10s  %-10s  %-10s  %-10d  %-10d  %-10s\n\n",id,name,email,fname,fnum,num,address);
+                System.out.printf("%-20d     %-20s     %-20s     %-20s     %-20d     %-20d     %-20s\n",id,name,email,fname,fnum,num,address);
+
 
             } 
         }catch(Exception e){
@@ -381,7 +391,7 @@ static void Update(){
             System.out.print("Enter ID : ");
             Value = bf.readLine();
             id = Integer.parseInt(Value);
-            System.out.println("ID      NAME       EMAIL     FATHER'S NAME    FATHER'S NUMBER    NUMBER    ADDRESS\n");
+            System.out.printf("%-20s     %-20s    %-20s     %-20s     %-20s     %-20s     %-20s \n\n",showid,showname,showemail,showfname,showfnum,shownum,showaddress);
             ResultSet rs = smt.executeQuery("Select * from student where sid = " + id);
             while(rs.next()){
                 id = rs.getInt(1);
@@ -392,7 +402,8 @@ static void Update(){
                 num = rs.getInt(6);
                 address = rs.getString(7);
                  
-                System.out.printf("%-10d   %-10s  %-10s  %-10s  %-10d  %-10d  %-10s\n",id,name,email,fname,fnum,num,address);
+                System.out.printf("%-20d     %-20s     %-20s     %-20s     %-20d     %-20d     %-20s\n",id,name,email,fname,fnum,num,address);
+
 
             } 
         }catch(Exception e){
@@ -419,7 +430,7 @@ static void Update(){
             Value1 = bf.readLine();
             ResultSet rs = smt.executeQuery("Select * from student where sname = '"+ Value1 +"' ");
             while(rs.next()){
-                System.out.println("ID      NAME       EMAIL     FATHER'S NAME    FATHER'S NUMBER    NUMBER    ADDRESS\n");
+                System.out.printf("%-20s     %-20s    %-20s     %-20s     %-20s     %-20s     %-20s \n\n",showid,showname,showemail,showfname,showfnum,shownum,showaddress);
                 id = rs.getInt(1);
                 name = rs.getString(2);
                 email = rs.getString(3);
@@ -428,7 +439,7 @@ static void Update(){
                 num = rs.getInt(6);
                 address = rs.getString(7);
                  
-                System.out.printf("%-10d   %-10s  %-10s  %-10s  %-10d  %-10d  %-10s\n",id,name,email,fname,fnum,num,address);
+                System.out.printf("%-20d     %-20s     %-20s     %-20s     %-20d     %-20d     %-20s\n",id,name,email,fname,fnum,num,address);
 
             } 
         }catch(Exception e){
